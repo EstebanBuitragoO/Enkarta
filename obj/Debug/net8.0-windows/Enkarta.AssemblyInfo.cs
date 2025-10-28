@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Enkarta")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+20e334dd6cce8ef82c930280a0a9b033273c569c")]
 [assembly: System.Reflection.AssemblyProductAttribute("Enkarta")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Enkarta")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

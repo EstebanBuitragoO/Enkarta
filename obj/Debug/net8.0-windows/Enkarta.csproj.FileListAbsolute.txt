@@ -133,3 +133,11 @@ C:\Users\Esteban\Documents\Enkarta\Enkarta\bin\Debug\net8.0-windows\runtimes\win
 C:\Users\Esteban\Documents\Enkarta\Enkarta\bin\Debug\net8.0-windows\runtimes\win-x64\native\krbcc64.dll
 C:\Users\Esteban\Documents\Enkarta\Enkarta\bin\Debug\net8.0-windows\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
 C:\Users\Esteban\Documents\Enkarta\Enkarta\obj\Debug\net8.0-windows\Enkarta.csproj.Up2Date
+C:\Users\Esteban\Documents\Enkarta\Enkarta\obj\Debug\net8.0-windows\Controls\Icon.baml
+C:\Users\Esteban\Documents\Enkarta\Enkarta\obj\Debug\net8.0-windows\Resources\Icons.baml
+C:\Users\Esteban\Documents\Enkarta\Enkarta\obj\Debug\net8.0-windows\Resources\Styles.baml
+C:\Users\Esteban\Documents\Enkarta\Enkarta\obj\Debug\net8.0-windows\Resources\Themes\DarkTheme.baml
+C:\Users\Esteban\Documents\Enkarta\Enkarta\obj\Debug\net8.0-windows\Resources\Themes\LightTheme.baml
+C:\Users\Esteban\Documents\Enkarta\Enkarta\obj\Debug\net8.0-windows\Controls\Icon.g.cs
+C:\Users\Esteban\Documents\Enkarta\Enkarta\obj\Debug\net8.0-windows\App.baml
+C:\Users\Esteban\Documents\Enkarta\Enkarta\obj\Debug\net8.0-windows\Enkarta.sourcelink.json

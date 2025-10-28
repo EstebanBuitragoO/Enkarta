@@ -1,0 +1,18 @@
+<UserControl x:Class="Enkarta.Controls.Icon"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Viewbox x:Name="IconViewbox"
+             Width="{Binding IconSize, RelativeSource={RelativeSource AncestorType=UserControl}}"
+             Height="{Binding IconSize, RelativeSource={RelativeSource AncestorType=UserControl}}"
+             Stretch="Uniform">
+        <Canvas Width="24" Height="24">
+            <Path x:Name="IconPath"
+                  Stroke="{Binding IconColor, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                  StrokeThickness="2"
+                  StrokeStartLineCap="Round"
+                  StrokeEndLineCap="Round"
+                  StrokeLineJoin="Round"
+                  Fill="Transparent"/>
+        </Canvas>
+    </Viewbox>
+</UserControl>

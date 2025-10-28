@@ -4,6 +4,15 @@
              xmlns:local="clr-namespace:Enkarta"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Tema por defecto: Claro -->
+                <ResourceDictionary Source="Resources/Themes/LightTheme.xaml"/>
+                <!-- Estilos globales -->
+                <ResourceDictionary Source="Resources/Styles.xaml"/>
+                <!-- Iconos SVG -->
+                <ResourceDictionary Source="Resources/Icons.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

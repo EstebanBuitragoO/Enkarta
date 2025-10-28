@@ -5,9 +5,365 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Enkarta"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Enkarta"
+        Height="900"
+        Width="1440"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource BackgroundBrush}">
+
     <Grid>
-        <DockPanel LastChildFill="False" Margin="10,0,704,0"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- SIDEBAR -->
+        <Border Grid.Column="0"
+                Background="{DynamicResource SidebarGradientBrush}"
+                BorderBrush="#20FFFFFF"
+                BorderThickness="0,0,1,0">
+            <Grid Margin="26">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- BRAND/LOGO -->
+                <StackPanel Grid.Row="0" Margin="0,0,0,20">
+                    <Grid Height="60">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Logo -->
+                        <Border Grid.Column="0"
+                                Width="48"
+                                Height="48"
+                                Background="{DynamicResource LogoGradientBrush}"
+                                CornerRadius="12">
+                            <TextBlock Text="EU"
+                                       FontFamily="{StaticResource HeadingFont}"
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       Foreground="White"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+
+                        <!-- Título -->
+                        <TextBlock Grid.Column="1"
+                                   Text="Enkarta"
+                                   FontFamily="{StaticResource HeadingFont}"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource SidebarTextBrush}"
+                                   VerticalAlignment="Center"
+                                   Margin="12,0,0,0"
+                                   TextWrapping="Wrap"/>
+                    </Grid>
+                </StackPanel>
+
+                <!-- MENU DE NAVEGACIÓN -->
+                <ScrollViewer Grid.Row="1"
+                             VerticalScrollBarVisibility="Auto"
+                             HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel x:Name="MenuPanel" Margin="0,0,0,10">
+
+                        <Button x:Name="BtnInicio"
+                                Style="{StaticResource MenuButton}"
+                                Click="MenuButton_Click"
+                                Tag="Inicio"
+                                Margin="0,0,0,8">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                    <Path Data="{StaticResource IconHome}"
+                                          Stroke="{DynamicResource SidebarTextBrush}"
+                                          StrokeThickness="2"
+                                          StrokeStartLineCap="Round"
+                                          StrokeEndLineCap="Round"
+                                          StrokeLineJoin="Round"
+                                          Fill="Transparent"
+                                          Width="20" Height="20"
+                                          Stretch="Uniform"
+                                          Margin="0,0,10,0"/>
+                                    <TextBlock Text="Inicio" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+                        </Button>
+
+                        <Button x:Name="BtnArticulos"
+                                Style="{StaticResource MenuButton}"
+                                Click="MenuButton_Click"
+                                Tag="Articulos"
+                                Margin="0,0,0,8">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="{StaticResource IconBook}"
+                                      Stroke="{DynamicResource SidebarTextBrush}"
+                                      StrokeThickness="2"
+                                      StrokeStartLineCap="Round"
+                                      StrokeEndLineCap="Round"
+                                      StrokeLineJoin="Round"
+                                      Fill="Transparent"
+                                      Width="20" Height="20"
+                                      Stretch="Uniform"
+                                      Margin="0,0,10,0"/>
+                                <TextBlock Text="Artículos" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="BtnCategorias"
+                                Style="{StaticResource MenuButton}"
+                                Click="MenuButton_Click"
+                                Tag="Categorias"
+                                Margin="0,0,0,8">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="{StaticResource IconTag}"
+                                      Stroke="{DynamicResource SidebarTextBrush}"
+                                      StrokeThickness="2"
+                                      StrokeStartLineCap="Round"
+                                      StrokeEndLineCap="Round"
+                                      StrokeLineJoin="Round"
+                                      Fill="Transparent"
+                                      Width="20" Height="20"
+                                      Stretch="Uniform"
+                                      Margin="0,0,10,0"/>
+                                <TextBlock Text="Categorías" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="BtnAutores"
+                                Style="{StaticResource MenuButton}"
+                                Click="MenuButton_Click"
+                                Tag="Autores"
+                                Margin="0,0,0,8">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="{StaticResource IconUser}"
+                                      Stroke="{DynamicResource SidebarTextBrush}"
+                                      StrokeThickness="2"
+                                      StrokeStartLineCap="Round"
+                                      StrokeEndLineCap="Round"
+                                      StrokeLineJoin="Round"
+                                      Fill="Transparent"
+                                      Width="20" Height="20"
+                                      Stretch="Uniform"
+                                      Margin="0,0,10,0"/>
+                                <TextBlock Text="Autores" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="BtnEtiquetas"
+                                Style="{StaticResource MenuButton}"
+                                Click="MenuButton_Click"
+                                Tag="Etiquetas"
+                                Margin="0,0,0,8">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="{StaticResource IconTags}"
+                                      Stroke="{DynamicResource SidebarTextBrush}"
+                                      StrokeThickness="2"
+                                      StrokeStartLineCap="Round"
+                                      StrokeEndLineCap="Round"
+                                      StrokeLineJoin="Round"
+                                      Fill="Transparent"
+                                      Width="20" Height="20"
+                                      Stretch="Uniform"
+                                      Margin="0,0,10,0"/>
+                                <TextBlock Text="Etiquetas" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="BtnFuentes"
+                                Style="{StaticResource MenuButton}"
+                                Click="MenuButton_Click"
+                                Tag="Fuentes"
+                                Margin="0,0,0,8">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="{StaticResource IconLink}"
+                                      Stroke="{DynamicResource SidebarTextBrush}"
+                                      StrokeThickness="2"
+                                      StrokeStartLineCap="Round"
+                                      StrokeEndLineCap="Round"
+                                      StrokeLineJoin="Round"
+                                      Fill="Transparent"
+                                      Width="20" Height="20"
+                                      Stretch="Uniform"
+                                      Margin="0,0,10,0"/>
+                                <TextBlock Text="Fuentes" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="BtnMedios"
+                                Style="{StaticResource MenuButton}"
+                                Click="MenuButton_Click"
+                                Tag="Medios"
+                                Margin="0,0,0,8">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="{StaticResource IconImage}"
+                                      Stroke="{DynamicResource SidebarTextBrush}"
+                                      StrokeThickness="2"
+                                      StrokeStartLineCap="Round"
+                                      StrokeEndLineCap="Round"
+                                      StrokeLineJoin="Round"
+                                      Fill="Transparent"
+                                      Width="20" Height="20"
+                                      Stretch="Uniform"
+                                      Margin="0,0,10,0"/>
+                                <TextBlock Text="Medios" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="BtnBusqueda"
+                                Style="{StaticResource MenuButton}"
+                                Click="MenuButton_Click"
+                                Tag="Busqueda"
+                                Margin="0,0,0,8">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="{StaticResource IconSearch}"
+                                      Stroke="{DynamicResource SidebarTextBrush}"
+                                      StrokeThickness="2"
+                                      StrokeStartLineCap="Round"
+                                      StrokeEndLineCap="Round"
+                                      StrokeLineJoin="Round"
+                                      Fill="Transparent"
+                                      Width="20" Height="20"
+                                      Stretch="Uniform"
+                                      Margin="0,0,10,0"/>
+                                <TextBlock Text="Búsqueda Avanzada" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="BtnExportar"
+                                Style="{StaticResource MenuButton}"
+                                Click="MenuButton_Click"
+                                Tag="Exportar"
+                                Margin="0,0,0,8">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="{StaticResource IconPackage}"
+                                      Stroke="{DynamicResource SidebarTextBrush}"
+                                      StrokeThickness="2"
+                                      StrokeStartLineCap="Round"
+                                      StrokeEndLineCap="Round"
+                                      StrokeLineJoin="Round"
+                                      Fill="Transparent"
+                                      Width="20" Height="20"
+                                      Stretch="Uniform"
+                                      Margin="0,0,10,0"/>
+                                <TextBlock Text="Exportación" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="BtnEstadisticas"
+                                Style="{StaticResource MenuButton}"
+                                Click="MenuButton_Click"
+                                Tag="Estadisticas"
+                                Margin="0,0,0,8">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="{StaticResource IconBarChart}"
+                                      Stroke="{DynamicResource SidebarTextBrush}"
+                                      StrokeThickness="2"
+                                      StrokeStartLineCap="Round"
+                                      StrokeEndLineCap="Round"
+                                      StrokeLineJoin="Round"
+                                      Fill="Transparent"
+                                      Width="20" Height="20"
+                                      Stretch="Uniform"
+                                      Margin="0,0,10,0"/>
+                                <TextBlock Text="Estadísticas" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- FOOTER DEL SIDEBAR -->
+                <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10,0,0">
+                    <Button x:Name="BtnToggleTheme"
+                            Style="{StaticResource ButtonSoft}"
+                            Click="ToggleTheme_Click"
+                            Padding="10,8"
+                            Margin="0,0,10,0">
+                        <StackPanel Orientation="Horizontal">
+                            <Path x:Name="ThemeIcon"
+                                  Data="{StaticResource IconMoon}"
+                                  Stroke="{DynamicResource TextBrush}"
+                                  StrokeThickness="2"
+                                  StrokeStartLineCap="Round"
+                                  StrokeEndLineCap="Round"
+                                  StrokeLineJoin="Round"
+                                  Fill="Transparent"
+                                  Width="16" Height="16"
+                                  Stretch="Uniform"/>
+                        </StackPanel>
+                    </Button>
+                    <TextBlock Text="Tema"
+                               Foreground="{DynamicResource SidebarTextBrush}"
+                               FontSize="12"
+                               Opacity="0.85"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+
+            </Grid>
+        </Border>
+
+        <!-- AREA PRINCIPAL -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- TOPBAR -->
+            <Border Grid.Row="0"
+                    Background="{DynamicResource PanelBrush}"
+                    BorderBrush="{DynamicResource LineBrush}"
+                    BorderThickness="0,0,0,1"
+                    Padding="26,18">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Breadcrumb y Título -->
+                    <StackPanel Grid.Column="0">
+                        <TextBlock x:Name="Breadcrumb"
+                                   Text="Inicio › Dashboard"
+                                   Style="{StaticResource TextMuted}"
+                                   FontSize="12"/>
+                        <TextBlock x:Name="PageTitle"
+                                   Text="Bienvenido a Enkarta"
+                                   Style="{StaticResource Heading1}"
+                                   Margin="0,6,0,0"/>
+                    </StackPanel>
+
+                    <!-- Botón de acción rápida -->
+                    <Button Grid.Column="1"
+                            Content="+ Nuevo Artículo"
+                            Style="{StaticResource ButtonPrimary}"
+                            VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- CONTENIDO -->
+            <ScrollViewer Grid.Row="1"
+                         VerticalScrollBarVisibility="Auto"
+                         Background="{DynamicResource BackgroundBrush}">
+                <Grid x:Name="ContentArea" Margin="28">
+                    <!-- El contenido de cada vista se cargará aquí -->
+                    <TextBlock Text="Seleccione una opción del menú"
+                               Style="{StaticResource Heading2}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource MutedTextBrush}"/>
+                </Grid>
+            </ScrollViewer>
+
+        </Grid>
 
     </Grid>
 </Window>
