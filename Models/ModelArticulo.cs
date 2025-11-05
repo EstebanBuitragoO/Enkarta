@@ -9,7 +9,7 @@ namespace Enkarta.Models
         public string? Titulo { get; set; }
         public string? Resumen { get; set; }
         public string? Contenido { get; set; }
-        public int CategoriaId { get; set; }
+        public int CategoriaId { get; set; } // Clave foránea que indentifica a que catagoria pertenece mi artículo
         public DateTime? FechaPublicacion { get; set; }
         public string? PalabrasClaves { get; set; }
         public bool Estado { get; set; }
@@ -18,7 +18,7 @@ namespace Enkarta.Models
         public DateTime? FechaActualizado { get; set; }
 
         // Propiedades de navegación
-        public ModelCategoria? Categoria { get; set; }
+        public ModelCategoria? Categoria { get; set; }// un artículo pertenece a una unica categoria
         public ICollection<ModelArticuloAutor> ArticuloAutores { get; set; } = new List<ModelArticuloAutor>();
         public ICollection<ModelArticuloEtiqueta> ArticuloEtiquetas { get; set; } = new List<ModelArticuloEtiqueta>();
         public ICollection<ModelArticuloFuente> ArticuloFuentes { get; set; } = new List<ModelArticuloFuente>();

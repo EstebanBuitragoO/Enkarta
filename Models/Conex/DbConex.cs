@@ -1,5 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Enkarta.Models;
 
 namespace Enkarta.Models.Conex
 {
@@ -165,6 +169,76 @@ namespace Enkarta.Models.Conex
             modelBuilder.Entity<ModelMedio>()
                 .Property(m => m.FechaCreado)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            // Filtros globales para soft-delete (excluir entidades inactivas por defecto)
+            modelBuilder.Entity<ModelArticulo>().HasQueryFilter(a => a.Estado);
+            modelBuilder.Entity<ModelCategoria>().HasQueryFilter(c => c.Estado);
+            modelBuilder.Entity<ModelAutor>().HasQueryFilter(a => a.Estado);
+            modelBuilder.Entity<ModelEtiqueta>().HasQueryFilter(e => e.Estado);
+            modelBuilder.Entity<ModelFuente>().HasQueryFilter(f => f.Estado);
+            modelBuilder.Entity<ModelMedio>().HasQueryFilter(m => m.Estado);
+        }
+
+        /// <summary>
+        /// Convierte intentos de borrado físico en soft-delete para entidades que tengan las propiedades
+        /// 'Estado' y 'FechaDesactivado'. Esto garantiza que cualquier llamada a Remove(...) no elimine
+        /// físicamente registros críticos como Articulos.
+        /// </summary>
+        private void ApplySoftDeleteConvention()
+        {
+            var entries = ChangeTracker.Entries()
+                .Where(e => e.State == EntityState.Deleted)
+                .ToList();
+
+            foreach (var entry in entries)
+            {
+                var entity = entry.Entity;
+                var tipo = entity.GetType();
+
+                // Sólo aplicar si la entidad tiene las propiedades esperadas
+                var propEstado = tipo.GetProperty("Estado");
+                if (propEstado == null) continue;
+
+                // Poner Estado = false
+                if (propEstado.PropertyType == typeof(bool) || propEstado.PropertyType == typeof(bool?))
+                {
+                    propEstado.SetValue(entity, false);
+                }
+
+                // Poner FechaDesactivado = DateTime.Now si existe
+                var propFecha = tipo.GetProperty("FechaDesactivado");
+                if (propFecha != null && (propFecha.PropertyType == typeof(DateTime) || propFecha.PropertyType == typeof(DateTime?)))
+                {
+                    propFecha.SetValue(entity, DateTime.Now);
+                }
+
+                // Convertir el Delete en Update/Modified para persistir el soft-delete
+                entry.State = EntityState.Modified;
+            }
+        }
+
+        public override int SaveChanges()
+        {
+            ApplySoftDeleteConvention();
+            return base.SaveChanges();
+        }
+
+        public override int SaveChanges(bool acceptAllChangesOnSuccess)
+        {
+            ApplySoftDeleteConvention();
+            return base.SaveChanges(acceptAllChangesOnSuccess);
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            ApplySoftDeleteConvention();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            ApplySoftDeleteConvention();
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
     }
 }

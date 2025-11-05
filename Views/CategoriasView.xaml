@@ -1,0 +1,172 @@
+<UserControl x:Class="Enkarta.Views.CategoriasView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="800" d:DesignWidth="1100">
+	<Grid>
+		<!-- VISTA DE TABLA -->
+		<Grid x:Name="VistaTabla" Visibility="Visible">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="*"/>
+			</Grid.RowDefinitions>
+
+			<!-- Barra de busqueda y acciones -->
+			<Grid Grid.Row="0" Margin="0,0,0,20">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+
+				<!-- Busqueda -->
+				<TextBox x:Name="txtBuscar"
+                         Grid.Column="0"
+                         Width="350"
+                         Height="40"
+                         HorizontalAlignment="Left"
+                         VerticalContentAlignment="Center"
+                         Background="{DynamicResource InputBrush}"
+                         Foreground="{DynamicResource TextBrush}"
+                         BorderBrush="{DynamicResource LineBrush}"
+                         Padding="15,0"
+                         FontSize="14"
+                         TextChanged="TxtBuscar_TextChanged"/>
+
+				<!-- Boton Nueva Categoria -->
+				<Button Grid.Column="1"
+                        x:Name="btnNuevaCategoria"
+                        Content="Nueva categoria"
+                        Height="40"
+                        Padding="20,0"
+                        Style="{StaticResource ButtonPrimary}"
+                        Click="BtnNuevaCategoria_Click"/>
+			</Grid>
+
+			<!-- Tabla de Categorias -->
+			<Border Grid.Row="1"
+                    Background="{DynamicResource PanelBrush}"
+                    BorderBrush="{DynamicResource LineBrush}"
+                    BorderThickness="1"
+                    CornerRadius="12"
+                    Padding="0">
+				<DataGrid x:Name="dgCategorias"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          SelectionMode="Single"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          Background="Transparent"
+                          BorderThickness="0"
+                          GridLinesVisibility="Horizontal"
+                          HeadersVisibility="Column"
+                          RowHeight="52">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="ID"
+                                            Binding="{Binding Id}"
+                                            Width="80"/>
+						<DataGridTextColumn Header="Nombre"
+                                            Binding="{Binding Nombre}"
+                                            Width="*"/>
+						<DataGridTextColumn Header="Descripcion"
+                                            Binding="{Binding Descripcion}"
+                                            Width="2*"/>
+						<DataGridTemplateColumn Header="Acciones"
+                                                Width="150">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+										<Button Content="Editar"
+                                                Style="{StaticResource ButtonSecondary}"
+                                                Padding="12,6"
+                                                Margin="0,0,8,0"
+                                                Click="BtnEditar_Click"
+                                                Tag="{Binding}"/>
+									</StackPanel>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+					</DataGrid.Columns>
+				</DataGrid>
+			</Border>
+		</Grid>
+
+		<!-- VISTA DE FORMULARIO -->
+		<Grid x:Name="VistaFormulario" Visibility="Collapsed">
+			<Border Background="{DynamicResource PanelBrush}"
+                    BorderBrush="{DynamicResource LineBrush}"
+                    BorderThickness="1"
+                    CornerRadius="12"
+                    Padding="40"
+                    MaxWidth="700"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Margin="0,40,0,0">
+				<StackPanel>
+					<!-- Titulo del formulario -->
+					<TextBlock x:Name="lblTituloFormulario"
+                               Text="Nueva categoria"
+                               Style="{StaticResource Heading1}"
+                               Margin="0,0,0,30"/>
+
+					<!-- Campo: Nombre -->
+					<TextBlock Text="Nombre *"
+                               FontWeight="SemiBold"
+                               FontSize="14"
+                               Foreground="{DynamicResource TextBrush}"
+                               Margin="0,0,0,8"/>
+					<TextBox x:Name="txtNombre"
+                             Height="45"
+                             Background="{DynamicResource InputBrush}"
+                             Foreground="{DynamicResource TextBrush}"
+                             BorderBrush="{DynamicResource LineBrush}"
+                             Padding="15,0"
+                             FontSize="14"
+                             Margin="0,0,0,25"/>
+
+					<!-- Campo: Descripcion -->
+					<TextBlock Text="Descripcion"
+                               FontWeight="SemiBold"
+                               FontSize="14"
+                               Foreground="{DynamicResource TextBrush}"
+                               Margin="0,0,0,8"/>
+					<TextBox x:Name="txtDescripcion"
+                             Height="200"
+                             Background="{DynamicResource InputBrush}"
+                             Foreground="{DynamicResource TextBrush}"
+                             BorderBrush="{DynamicResource LineBrush}"
+                             Padding="15,12"
+                             FontSize="14"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto"
+                             Margin="0,0,0,30"/>
+
+					<!-- Botones de accion -->
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="15"/>
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+
+						<Button Grid.Column="0"
+                                x:Name="btnCancelar"
+                                Content="Cancelar"
+                                Height="45"
+                                Style="{StaticResource ButtonSoft}"
+                                Click="BtnCancelar_Click"/>
+
+						<Button Grid.Column="2"
+                                x:Name="btnGuardar"
+                                Content="Guardar"
+                                Height="45"
+                                Style="{StaticResource ButtonPrimary}"
+                                Click="BtnGuardar_Click"/>
+					</Grid>
+				</StackPanel>
+			</Border>
+		</Grid>
+	</Grid>
+</UserControl>

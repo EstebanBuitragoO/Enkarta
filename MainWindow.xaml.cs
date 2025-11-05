@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 using Enkarta.Services;
+using Enkarta.Views; // ← AGREGAR ESTA LÍNEA
 
 namespace Enkarta
 {
@@ -70,18 +71,41 @@ namespace Enkarta
             // Limpiar el área de contenido
             ContentArea.Children.Clear();
 
-            // Aquí se cargarán las vistas correspondientes
-            // Por ahora, mostramos un mensaje temporal
-            var tempMessage = new TextBlock
-            {
-                Text = $"Vista de {pageName} (próximamente)",
-                Style = (Style)FindResource("Heading2"),
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                Foreground = (Brush)FindResource("MutedTextBrush")
-            };
+            // ============ MODIFICAR DESDE AQUÍ ============
+            // Cargar la vista correspondiente
+            UserControl? view = null;
 
-            ContentArea.Children.Add(tempMessage);
+            switch (pageName)
+            {
+                case "Articulos":
+                    view = new ArticulosView();
+                    break;
+                case "Categorias":
+                    view = new CategoriasView();
+                    break;
+                case "Busqueda":
+                    view = new BusquedaAvanzadaView();
+                    break;
+                default:
+                    // Para las demás vistas, mostrar mensaje temporal
+                    var tempMessage = new TextBlock
+                    {
+                        Text = $"Vista de {pageName} (próximamente)",
+                        Style = (Style)FindResource("Heading2"),
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center,
+                        Foreground = (Brush)FindResource("MutedTextBrush")
+                    };
+                    ContentArea.Children.Add(tempMessage);
+                    return;
+            }
+
+            // Si se creó una vista, agregarla al ContentArea
+            if (view != null)
+            {
+                ContentArea.Children.Add(view);
+            }
+            // ============ HASTA AQUÍ ============
         }
 
         /// <summary>

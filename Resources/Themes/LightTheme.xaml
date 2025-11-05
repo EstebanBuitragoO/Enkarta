@@ -1,63 +1,99 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- 🎄 Tema Claro - Navidad Clásica -->
+	<!-- 🎄 Tema Claro - Navidad Clásica -->
 
-    <!-- Colores Base -->
-    <Color x:Key="BackgroundColor">#F7FAFC</Color>
-    <Color x:Key="PanelColor">#FFFFFF</Color>
-    <Color x:Key="TextColor">#17212B</Color>
-    <Color x:Key="MutedTextColor">#5E6A78</Color>
-    <Color x:Key="LineColor">#E5EAF0</Color>
+	<!-- Colores Base -->
+	<Color x:Key="BackgroundColorValue">#F7FAFC</Color>
+	<Color x:Key="PanelColorValue">#FFFFFF</Color>
+	<Color x:Key="TextColorValue">#17212B</Color>
+	<Color x:Key="MutedTextColorValue">#5E6A78</Color>
+	<Color x:Key="LineColorValue">#E5EAF0</Color>
 
-    <!-- Colores de Acento -->
-    <Color x:Key="RedColor">#C81D25</Color>
-    <Color x:Key="GreenColor">#166534</Color>
-    <Color x:Key="GoldColor">#EAB308</Color>
+	<!-- Colores de Acento -->
+	<Color x:Key="RedColorValue">#C81D25</Color>
+	<!-- Rojo navideño -->
+	<Color x:Key="GreenColorValue">#166534</Color>
+	<!-- Verde pino -->
+	<Color x:Key="GoldColorValue">#EAB308</Color>
+	<!-- Dorado -->
 
-    <!-- Colores de Hover -->
-    <Color x:Key="HoverColor">#FFF5F5</Color>
-    <Color x:Key="Hover2Color">#F0FDF4</Color>
+	<!-- ✅ Nuevos colores para botones (mapeados a tu paleta) -->
+	<Color x:Key="PrimaryColorValue">#C81D25</Color>
+	<!-- Rojo = Primary -->
+	<Color x:Key="PrimaryHoverValue">#9A181E</Color>
 
-    <!-- Colores del Sidebar -->
-    <Color x:Key="SidebarGradient1">#10281E</Color>
-    <Color x:Key="SidebarGradient2">#0B1E17</Color>
-    <Color x:Key="SidebarTextColor">#FDF7F2</Color>
+	<Color x:Key="SecondaryColorValue">#6C757D</Color>
+	<!-- Gris neutro para secondary -->
+	<Color x:Key="SecondaryHoverValue">#5A6268</Color>
 
-    <!-- SolidColorBrushes -->
-    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
-    <SolidColorBrush x:Key="PanelBrush" Color="{StaticResource PanelColor}"/>
-    <SolidColorBrush x:Key="TextBrush" Color="{StaticResource TextColor}"/>
-    <SolidColorBrush x:Key="MutedTextBrush" Color="{StaticResource MutedTextColor}"/>
-    <SolidColorBrush x:Key="LineBrush" Color="{StaticResource LineColor}"/>
-    <SolidColorBrush x:Key="RedBrush" Color="{StaticResource RedColor}"/>
-    <SolidColorBrush x:Key="GreenBrush" Color="{StaticResource GreenColor}"/>
-    <SolidColorBrush x:Key="GoldBrush" Color="{StaticResource GoldColor}"/>
-    <SolidColorBrush x:Key="HoverBrush" Color="{StaticResource HoverColor}"/>
-    <SolidColorBrush x:Key="Hover2Brush" Color="{StaticResource Hover2Color}"/>
-    <SolidColorBrush x:Key="SidebarTextBrush" Color="{StaticResource SidebarTextColor}"/>
+	<Color x:Key="SuccessColorValue">#166534</Color>
+	<!-- Verde = Success -->
+	<Color x:Key="SuccessHoverValue">#124E28</Color>
 
-    <!-- Gradientes -->
-    <LinearGradientBrush x:Key="SidebarGradientBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Color="{StaticResource SidebarGradient1}" Offset="0"/>
-        <GradientStop Color="{StaticResource SidebarGradient2}" Offset="1"/>
-    </LinearGradientBrush>
+	<Color x:Key="DangerColorValue">#C81D25</Color>
+	<!-- Rojo = Danger -->
+	<Color x:Key="DangerHoverValue">#9A181E</Color>
 
-    <LinearGradientBrush x:Key="PrimaryGradientBrush" StartPoint="0,0.5" EndPoint="1,0.5">
-        <GradientStop Color="{StaticResource RedColor}" Offset="0"/>
-        <GradientStop Color="{StaticResource GoldColor}" Offset="1"/>
-    </LinearGradientBrush>
+	<Color x:Key="SoftColorValue">#F0F2F5</Color>
+	<!-- Gris claro para botón suave -->
+	<Color x:Key="SoftHoverValue">#E2E6EA</Color>
 
-    <LinearGradientBrush x:Key="GreenGradientBrush" StartPoint="0,0.5" EndPoint="1,0.5">
-        <GradientStop Color="{StaticResource GreenColor}" Offset="0"/>
-        <GradientStop Color="#34D399" Offset="1"/>
-    </LinearGradientBrush>
+	<!-- Colores de Hover -->
+	<Color x:Key="HoverColorValue">#FFF5F5</Color>
+	<Color x:Key="Hover2ColorValue">#F0FDF4</Color>
 
-    <!-- Logo Gradient (Conic gradient simulado) -->
-    <RadialGradientBrush x:Key="LogoGradientBrush" GradientOrigin="0.5,0.5">
-        <GradientStop Color="{StaticResource RedColor}" Offset="0"/>
-        <GradientStop Color="{StaticResource GoldColor}" Offset="0.5"/>
-        <GradientStop Color="{StaticResource GreenColor}" Offset="1"/>
-    </RadialGradientBrush>
+	<!-- Colores del Sidebar -->
+	<Color x:Key="SidebarGradient1Value">#10281E</Color>
+	<Color x:Key="SidebarGradient2Value">#0B1E17</Color>
+	<Color x:Key="SidebarTextColorValue">#FDF7F2</Color>
+
+	<!-- SolidColorBrushes (sin "Value" en la clave) -->
+	<SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColorValue}"/>
+	<SolidColorBrush x:Key="PanelBrush" Color="{StaticResource PanelColorValue}"/>
+	<SolidColorBrush x:Key="TextBrush" Color="{StaticResource TextColorValue}"/>
+	<SolidColorBrush x:Key="MutedTextBrush" Color="{StaticResource MutedTextColorValue}"/>
+	<SolidColorBrush x:Key="LineBrush" Color="{StaticResource LineColorValue}"/>
+	<SolidColorBrush x:Key="RedBrush" Color="{StaticResource RedColorValue}"/>
+	<SolidColorBrush x:Key="GreenBrush" Color="{StaticResource GreenColorValue}"/>
+	<SolidColorBrush x:Key="GoldBrush" Color="{StaticResource GoldColorValue}"/>
+	<SolidColorBrush x:Key="HoverBrush" Color="{StaticResource HoverColorValue}"/>
+	<SolidColorBrush x:Key="Hover2Brush" Color="{StaticResource Hover2ColorValue}"/>
+	<SolidColorBrush x:Key="SidebarTextBrush" Color="{StaticResource SidebarTextColorValue}"/>
+
+	<!-- ✅ Nuevos SolidColorBrush para botones -->
+	<SolidColorBrush x:Key="PrimaryColor" Color="{StaticResource PrimaryColorValue}"/>
+	<SolidColorBrush x:Key="PrimaryHover" Color="{StaticResource PrimaryHoverValue}"/>
+	<SolidColorBrush x:Key="SecondaryColor" Color="{StaticResource SecondaryColorValue}"/>
+	<SolidColorBrush x:Key="SecondaryHover" Color="{StaticResource SecondaryHoverValue}"/>
+	<SolidColorBrush x:Key="SuccessColor" Color="{StaticResource SuccessColorValue}"/>
+	<SolidColorBrush x:Key="SuccessHover" Color="{StaticResource SuccessHoverValue}"/>
+	<SolidColorBrush x:Key="DangerColor" Color="{StaticResource DangerColorValue}"/>
+	<SolidColorBrush x:Key="DangerHover" Color="{StaticResource DangerHoverValue}"/>
+	<SolidColorBrush x:Key="SoftColor" Color="{StaticResource SoftColorValue}"/>
+	<SolidColorBrush x:Key="SoftHover" Color="{StaticResource SoftHoverValue}"/>
+
+	<!-- Gradientes -->
+	<LinearGradientBrush x:Key="SidebarGradientBrush" StartPoint="0,0" EndPoint="0,1">
+		<GradientStop Color="{StaticResource SidebarGradient1Value}" Offset="0"/>
+		<GradientStop Color="{StaticResource SidebarGradient2Value}" Offset="1"/>
+	</LinearGradientBrush>
+
+	<LinearGradientBrush x:Key="PrimaryGradientBrush" StartPoint="0,0.5" EndPoint="1,0.5">
+		<GradientStop Color="{StaticResource RedColorValue}" Offset="0"/>
+		<GradientStop Color="{StaticResource GoldColorValue}" Offset="1"/>
+	</LinearGradientBrush>
+
+	<LinearGradientBrush x:Key="GreenGradientBrush" StartPoint="0,0.5" EndPoint="1,0.5">
+		<GradientStop Color="{StaticResource GreenColorValue}" Offset="0"/>
+		<GradientStop Color="#34D399" Offset="1"/>
+	</LinearGradientBrush>
+
+	<!-- Logo Gradient -->
+	<RadialGradientBrush x:Key="LogoGradientBrush" GradientOrigin="0.5,0.5">
+		<GradientStop Color="{StaticResource RedColorValue}" Offset="0"/>
+		<GradientStop Color="{StaticResource GoldColorValue}" Offset="0.5"/>
+		<GradientStop Color="{StaticResource GreenColorValue}" Offset="1"/>
+	</RadialGradientBrush>
 
 </ResourceDictionary>
