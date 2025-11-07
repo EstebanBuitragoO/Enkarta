@@ -62,7 +62,7 @@ namespace Enkarta
         /// <summary>
         /// Navega a la página especificada
         /// </summary>
-        private void NavigateToPage(string pageName)
+        private void NavigateToPage(string pageName, string? action = null)
         {
             // Actualizar breadcrumb y título
             Breadcrumb.Text = $"Inicio › {pageName}";
@@ -77,11 +77,24 @@ namespace Enkarta
 
             switch (pageName)
             {
+                case "Inicio":
+                    view = new InicioView();
+                    if (view is InicioView inicioView)
+                    {
+                        inicioView.NavigationRequested += (s, e) =>
+                        {
+                            SetActiveMenuButton(BtnArticulos);
+                            NavigateToPage(e.PageName ?? "Articulos", e.Action);
+                        };
+                    }
+                    break;
                 case "Articulos":
                     view = new ArticulosView();
+                    // Si viene desde Inicio con acción "NuevoArticulo", se ejecutará después
                     break;
                 case "Categorias":
                     view = new CategoriasView();
+                    // Si viene desde Inicio con acción "NuevaCategoria", se ejecutará después
                     break;
                 case "Busqueda":
                     view = new BusquedaAvanzadaView();
@@ -104,6 +117,20 @@ namespace Enkarta
             if (view != null)
             {
                 ContentArea.Children.Add(view);
+
+                // Si viene desde Inicio con acción "NuevoArticulo", ejecutar la acción
+                if (pageName == "Articulos" && action == "NuevoArticulo" && view is ArticulosView articulosView)
+                {
+                    // Simular el clic en el botón de nuevo artículo de ArticulosView
+                    articulosView.BtnNuevoArticulo_Click(null!, null!);
+                }
+
+                // Si viene desde Inicio con acción "NuevaCategoria", ejecutar la acción
+                if (pageName == "Categorias" && action == "NuevaCategoria" && view is CategoriasView categoriasView)
+                {
+                    // Simular el clic en el botón de nueva categoría de CategoriasView
+                    categoriasView.BtnNuevaCategoria_Click(null!, null!);
+                }
             }
             // ============ HASTA AQUÍ ============
         }

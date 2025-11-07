@@ -19,7 +19,7 @@ namespace Enkarta.Views
             CargarCategorias();
         }
 
-        // Cargar lista de categorías
+        // Cargar lista de categorï¿½as
         private void CargarCategorias()
         {
             try
@@ -29,7 +29,7 @@ namespace Enkarta.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar categorías: {ex.Message}",
+                MessageBox.Show($"Error al cargar categorï¿½as: {ex.Message}",
                     "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -47,11 +47,11 @@ namespace Enkarta.Views
             VistaFormulario.Visibility = Visibility.Visible;
         }
 
-        private void BtnNuevaCategoria_Click(object sender, RoutedEventArgs e)
+        public void BtnNuevaCategoria_Click(object sender, RoutedEventArgs e)
         {
             _modoEdicion = false;
             _categoriaSeleccionada = null;
-            lblTituloFormulario.Text = "Nueva Categoría";
+            lblTituloFormulario.Text = "Nueva Categorï¿½a";
             LimpiarFormulario();
             MostrarFormulario();
         }
@@ -62,20 +62,20 @@ namespace Enkarta.Views
             {
                 _categoriaSeleccionada = categoria;
                 _modoEdicion = true;
-                lblTituloFormulario.Text = "Editar Categoría";
+                lblTituloFormulario.Text = "Editar Categorï¿½a";
                 CargarCategoriaEnFormulario(categoria);
                 MostrarFormulario();
             }
         }
 
-        // Cargar datos de categoría en el formulario
+        // Cargar datos de categorï¿½a en el formulario
         private void CargarCategoriaEnFormulario(ModelCategoria categoria)
         {
             txtNombre.Text = categoria.Nombre;
             txtDescripcion.Text = categoria.Descripcion;
         }
 
-        // Botón: Guardar
+        // Botï¿½n: Guardar
         private void BtnGuardar_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -83,8 +83,8 @@ namespace Enkarta.Views
                 // Validar campo obligatorio
                 if (string.IsNullOrWhiteSpace(txtNombre.Text))
                 {
-                    MessageBox.Show("El nombre de la categoría es obligatorio",
-                        "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("El nombre de la categorï¿½a es obligatorio",
+                        "Validaciï¿½n", MessageBoxButton.OK, MessageBoxImage.Warning);
                     txtNombre.Focus();
                     return;
                 }
@@ -100,25 +100,25 @@ namespace Enkarta.Views
 
                 if (_modoEdicion && _categoriaSeleccionada != null)
                 {
-                    // Actualizar categoría existente
+                    // Actualizar categorï¿½a existente
                     categoria.Id = _categoriaSeleccionada.Id;
                     resultado = _controller.ActualizarCategoria(categoria);
 
                     if (resultado)
                     {
-                        MessageBox.Show("Categoría actualizada correctamente",
-                            "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("Categorï¿½a actualizada correctamente",
+                            "ï¿½xito", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                 }
                 else
                 {
-                    // Crear nueva categoría
+                    // Crear nueva categorï¿½a
                     resultado = _controller.CrearCategoria(categoria);
 
                     if (resultado)
                     {
-                        MessageBox.Show("Categoría creada correctamente",
-                            "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("Categorï¿½a creada correctamente",
+                            "ï¿½xito", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                 }
 
@@ -130,13 +130,13 @@ namespace Enkarta.Views
                 }
                 else
                 {
-                    MessageBox.Show("Error al guardar la categoría",
+                    MessageBox.Show("Error al guardar la categorï¿½a",
                         "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (ArgumentException ex)
             {
-                MessageBox.Show(ex.Message, "Validación",
+                MessageBox.Show(ex.Message, "Validaciï¿½n",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             catch (Exception ex)
@@ -146,7 +146,7 @@ namespace Enkarta.Views
             }
         }
 
-        // Botón: Cancelar
+        // Botï¿½n: Cancelar
         private void BtnCancelar_Click(object sender, RoutedEventArgs e)
         {
             MostrarTabla();
@@ -162,7 +162,7 @@ namespace Enkarta.Views
             txtDescripcion.Clear();
         }
 
-        // Búsqueda en tiempo real
+        // Bï¿½squeda en tiempo real
         private void TxtBuscar_TextChanged(object sender, TextChangedEventArgs e)
         {
             var texto = txtBuscar.Text;
