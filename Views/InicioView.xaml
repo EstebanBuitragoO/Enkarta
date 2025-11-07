@@ -8,22 +8,10 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
-        <!-- Encabezado de bienvenida -->
-        <StackPanel Grid.Row="0" Margin="0,0,0,30">
-            <TextBlock Text="¡Bienvenido a Enkarta!"
-                       Style="{StaticResource Heading1}"
-                       Margin="0,0,0,10"/>
-            <TextBlock Text="Tu plataforma de gestión de artículos, categorías y contenido"
-                       Style="{StaticResource TextMuted}"
-                       FontSize="16"/>
-        </StackPanel>
-
         <!-- Contenido principal -->
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <!-- Estadísticas rápidas -->
                 <TextBlock Text="Estadísticas Rápidas"
@@ -208,8 +196,8 @@
                     </Border>
                 </Grid>
 
-                <!-- Información del sistema -->
-                <TextBlock Text="Información del Sistema"
+                <!-- Últimos Artículos -->
+                <TextBlock Text="Últimos Artículos"
                            Style="{StaticResource Heading2}"
                            Margin="0,0,0,20"/>
 
@@ -217,70 +205,31 @@
                         BorderBrush="{DynamicResource LineBrush}"
                         BorderThickness="1"
                         CornerRadius="12"
-                        Padding="24">
-                    <StackPanel>
-                        <Grid Margin="0,0,0,16">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="180"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock Grid.Column="0"
-                                       Text="Nombre de la Aplicación"
-                                       Foreground="{DynamicResource TextBrush}"
-                                       FontWeight="SemiBold"/>
-                            <TextBlock Grid.Column="1"
-                                       Text="Enkarta"
-                                       Foreground="{DynamicResource MutedTextBrush}"/>
-                        </Grid>
-
-                        <Grid Margin="0,0,0,16">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="180"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock Grid.Column="0"
-                                       Text="Versión"
-                                       Foreground="{DynamicResource TextBrush}"
-                                       FontWeight="SemiBold"/>
-                            <TextBlock Grid.Column="1"
-                                       Text="1.0.0"
-                                       Foreground="{DynamicResource MutedTextBrush}"/>
-                        </Grid>
-
-                        <Grid Margin="0,0,0,16">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="180"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock Grid.Column="0"
-                                       Text="Descripción"
-                                       Foreground="{DynamicResource TextBrush}"
-                                       FontWeight="SemiBold"/>
-                            <TextBlock Grid.Column="1"
-                                       Text="Plataforma integral de gestión de artículos, categorías y contenido multimedia"
-                                       Foreground="{DynamicResource MutedTextBrush}"
-                                       TextWrapping="Wrap"/>
-                        </Grid>
-
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="180"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock Grid.Column="0"
-                                       Text="Última Actualización"
-                                       Foreground="{DynamicResource TextBrush}"
-                                       FontWeight="SemiBold"/>
-                            <TextBlock Grid.Column="1"
-                                       x:Name="lblLastUpdate"
-                                       Text="Cargando..."
-                                       Foreground="{DynamicResource MutedTextBrush}"/>
-                        </Grid>
-                    </StackPanel>
+                        Padding="1">
+                    <DataGrid x:Name="dgUltimosArticulos"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              SelectionMode="Single"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              Background="Transparent"
+                              BorderThickness="0"
+                              SelectionChanged="DgUltimosArticulos_SelectionChanged"
+                              GridLinesVisibility="Horizontal"
+                              HeadersVisibility="Column"
+                              RowHeight="44">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Título"
+                                                Binding="{Binding Titulo}"
+                                                Width="*"/>
+                            <DataGridTextColumn Header="Categoría"
+                                                Binding="{Binding Categoria.Nombre}"
+                                                Width="150"/>
+                            <DataGridTextColumn Header="Fecha Publicación"
+                                                Binding="{Binding FechaPublicacion, StringFormat='{}{0:dd/MM/yyyy}'}"
+                                                Width="130"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Border>
 
             </StackPanel>

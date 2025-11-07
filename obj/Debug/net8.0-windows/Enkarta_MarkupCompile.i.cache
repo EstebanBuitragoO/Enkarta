@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Esteban\Documents\Enkarta\Enkarta\obj\Debug\net8.0-windows\
+C:\Users\Aleja León\Documents\REPOS\Enkarta\obj\Debug\net8.0-windows\
 Enkarta
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
-C:\Users\Esteban\Documents\Enkarta\Enkarta\App.xaml
-11407045341
+C:\Users\Aleja León\Documents\REPOS\Enkarta\App.xaml
+111752679728
 
-211237689093
-2202016844744
-MainWindow.xaml;
+321169474603
+220-1933697042
+Controls\Icon.xaml;MainWindow.xaml;Resources\Icons.xaml;Resources\Styles.xaml;Resources\Themes\DarkTheme.xaml;Resources\Themes\LightTheme.xaml;Views\ArticulosView.xaml;Views\BusquedaAvanzadaView.xaml;Views\CategoriasView.xaml;Views\InicioView.xaml;Views\ResenaArticuloWindow.xaml;
 
 False
 

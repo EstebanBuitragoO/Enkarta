@@ -1,5 +1,7 @@
 using Enkarta.Controllers;
+using Enkarta.Models;
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -20,7 +22,7 @@ namespace Enkarta.Views
             _categoriaController = new CategoriaController();
 
             CargarEstadisticas();
-            CargarFechaActualizacion();
+            CargarUltimosArticulos();
         }
 
         /// <summary>
@@ -57,35 +59,25 @@ namespace Enkarta.Views
         }
 
         /// <summary>
-        /// Carga la fecha de última actualización del sistema
+        /// Carga los últimos 3 artículos para mostrar en la tabla
         /// </summary>
-        private void CargarFechaActualizacion()
+        private void CargarUltimosArticulos()
         {
             try
             {
-                // Aquí puedes obtener la fecha del último artículo modificado
                 var articulos = _articuloController.ListarArticulos();
-                if (articulos.Count > 0)
-                {
-                    var ultimaActualizacion = articulos[0].FechaActualizado;
-                    if (ultimaActualizacion != null)
-                    {
-                        lblLastUpdate.Text = ultimaActualizacion.Value.ToString("dd/MM/yyyy HH:mm:ss");
-                    }
-                    else
-                    {
-                        lblLastUpdate.Text = "Sin actualización registrada";
-                    }
-                }
-                else
-                {
-                    lblLastUpdate.Text = "Sistema sin datos";
-                }
+
+                // Tomar los últimos 3 artículos (ordenados por ID descendente)
+                var ultimosArticulos = articulos
+                    .OrderByDescending(a => a.Id)
+                    .Take(3)
+                    .ToList();
+
+                dgUltimosArticulos.ItemsSource = ultimosArticulos;
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error al cargar fecha: {ex.Message}");
-                lblLastUpdate.Text = "Error al cargar";
+                System.Diagnostics.Debug.WriteLine($"Error al cargar últimos artículos: {ex.Message}");
             }
         }
 
@@ -106,6 +98,23 @@ namespace Enkarta.Views
             // Disparar el evento de navegación
             NavigationRequested?.Invoke(this, new NavigationEventArgs { PageName = "Categorias", Action = "NuevaCategoria" });
         }
+
+        /// <summary>
+        /// Evento: Selección de artículo en la tabla de últimos artículos
+        /// </summary>
+        private void DgUltimosArticulos_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dgUltimosArticulos.SelectedItem is ModelArticulo articulo)
+            {
+                // Disparar el evento de navegación a Artículos con acción "VerArticulo"
+                NavigationRequested?.Invoke(this, new NavigationEventArgs
+                {
+                    PageName = "Articulos",
+                    Action = "VerArticulo",
+                    ArticuloId = articulo.Id
+                });
+            }
+        }
     }
 
     /// <summary>
@@ -115,5 +124,6 @@ namespace Enkarta.Views
     {
         public string? PageName { get; set; }
         public string? Action { get; set; }
+        public int? ArticuloId { get; set; }
     }
 }

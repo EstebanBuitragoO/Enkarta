@@ -62,7 +62,7 @@ namespace Enkarta
         /// <summary>
         /// Navega a la página especificada
         /// </summary>
-        private void NavigateToPage(string pageName, string? action = null)
+        private void NavigateToPage(string pageName, string? action = null, int? articuloId = null)
         {
             // Actualizar breadcrumb y título
             Breadcrumb.Text = $"Inicio › {pageName}";
@@ -83,8 +83,15 @@ namespace Enkarta
                     {
                         inicioView.NavigationRequested += (s, e) =>
                         {
-                            SetActiveMenuButton(BtnArticulos);
-                            NavigateToPage(e.PageName ?? "Articulos", e.Action);
+                            if (e.PageName == "Articulos")
+                            {
+                                SetActiveMenuButton(BtnArticulos);
+                            }
+                            else if (e.PageName == "Categorias")
+                            {
+                                SetActiveMenuButton(BtnCategorias);
+                            }
+                            NavigateToPage(e.PageName ?? "Articulos", e.Action, e.ArticuloId);
                         };
                     }
                     break;
@@ -130,6 +137,13 @@ namespace Enkarta
                 {
                     // Simular el clic en el botón de nueva categoría de CategoriasView
                     categoriasView.BtnNuevaCategoria_Click(null!, null!);
+                }
+
+                // Si viene desde Inicio con acción "VerArticulo", mostrar la vista de lectura del artículo
+                if (pageName == "Articulos" && action == "VerArticulo" && articuloId.HasValue && view is ArticulosView articulosView2)
+                {
+                    // Simular la selección de un artículo
+                    articulosView2.MostrarVistaArticulo(articuloId.Value);
                 }
             }
             // ============ HASTA AQUÍ ============

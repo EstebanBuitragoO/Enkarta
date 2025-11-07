@@ -14,32 +14,37 @@
 			</Grid.RowDefinitions>
 
 			<!-- Barra de busqueda y acciones -->
-			<Grid Grid.Row="0" Margin="0,0,0,20">
+			<Grid Grid.Row="0" Margin="0,0,0,20" x:Name="SearchPanel">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*"/>
 					<ColumnDefinition Width="Auto"/>
 				</Grid.ColumnDefinitions>
 
-				<!-- Busqueda -->
-				<TextBox x:Name="txtBuscar"
-                         Grid.Column="0"
-                         Width="350"
-                         Height="40"
-                         HorizontalAlignment="Left"
-                         VerticalContentAlignment="Center"
-                         Background="{DynamicResource InputBrush}"
-                         Foreground="{DynamicResource TextBrush}"
-                         BorderBrush="{DynamicResource LineBrush}"
-                         Padding="15,0"
-                         FontSize="14"
-                         TextChanged="TxtBuscar_TextChanged"/>
+				<!-- Buscador -->
+				<StackPanel Grid.Column="0">
+					<TextBlock Text="Buscar categoría por palabra clave"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextBrush}"
+                               Margin="0,0,0,8"
+                               FontSize="13"/>
+					<TextBox x:Name="txtBuscar"
+                             Height="38"
+                             VerticalContentAlignment="Center"
+                             Background="{DynamicResource InputBrush}"
+                             Foreground="{DynamicResource TextBrush}"
+                             BorderBrush="{DynamicResource LineBrush}"
+                             Padding="12,0"
+                             FontSize="14"
+                             TextChanged="TxtBuscar_TextChanged"/>
+				</StackPanel>
 
 				<!-- Boton Nueva Categoria -->
 				<Button Grid.Column="1"
                         x:Name="btnNuevaCategoria"
-                        Content="Nueva categoria"
-                        Height="40"
-                        Padding="20,0"
+                        Content="➕ Nueva Categoría"
+                        Height="48"
+                        Margin="20,0,0,0"
+                        VerticalAlignment="Bottom"
                         Style="{StaticResource ButtonPrimary}"
                         Click="BtnNuevaCategoria_Click"/>
 			</Grid>
@@ -72,18 +77,17 @@
 						<DataGridTextColumn Header="Descripcion"
                                             Binding="{Binding Descripcion}"
                                             Width="2*"/>
-						<DataGridTemplateColumn Header="Acciones"
-                                                Width="150">
+						<DataGridTemplateColumn Header="Acciones" Width="80">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
-									<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-										<Button Content="Editar"
-                                                Style="{StaticResource ButtonSecondary}"
-                                                Padding="12,6"
-                                                Margin="0,0,8,0"
-                                                Click="BtnEditar_Click"
-                                                Tag="{Binding}"/>
-									</StackPanel>
+									<Button Content="✏️ Editar"
+                                            Style="{StaticResource ButtonSoft}"
+                                            Padding="4,2"
+                                            FontSize="11"
+                                            Height="22"
+                                            Width="60"
+                                            Click="BtnEditar_Click"
+                                            Tag="{Binding}"/>
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>

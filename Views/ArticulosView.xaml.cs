@@ -2,9 +2,11 @@ using Enkarta.Controllers;
 using Enkarta.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Enkarta.Views
 {
@@ -29,22 +31,24 @@ namespace Enkarta.Views
             // No cargamos autores/etiquetas: ya no forman parte del formulario
         }
 
-        // Cargar lista de artÌculos en el DataGrid
+        // Cargar lista de art√≠culos en el DataGrid
         private void CargarArticulos()
         {
             try
             {
                 var articulos = _controller.ListarArticulos();
                 dgArticulos.ItemsSource = articulos;
+                Debug.WriteLine("Hola, esto es debug"+articulos);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar artÌculos: {ex.Message}",
+                Debug.WriteLine("Hola, esto es debug" + ex.Message);
+                MessageBox.Show($"Error al cargar art√≠culos: {ex.Message}",
                     "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        // Cargar categorÌas en el ComboBox
+        // Cargar categor√≠as en el ComboBox
         private void CargarCategorias()
         {
             try
@@ -54,36 +58,56 @@ namespace Enkarta.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar categorÌas: {ex.Message}",
+                MessageBox.Show($"Error al cargar categor√≠as: {ex.Message}",
                     "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        // Evento: SelecciÛn cambiada en el DataGrid
-        private void DgArticulos_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        // Evento: Clic en la DataGrid (para abrir vista de lectura al hacer clic en la fila)
+        private void DgArticulos_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (dgArticulos.SelectedItem is ModelArticulo articulo)
-            {
-                _articuloSeleccionado = articulo;
-                CargarArticuloEnFormulario(articulo);
-                btnEliminar.IsEnabled = true;
-                _modoEdicion = true;
-                lblTituloFormulario.Text = "Editar ArtÌculo";
+            // Obtener la fila donde se hizo clic
+            var row = FindParentOfType<DataGridRow>(e.OriginalSource as DependencyObject);
 
-                // Colapsar panel izquierdo y dar espacio al formulario (comportamiento tipo CategorÌas)
-                try
+            if (row != null && row.Item is ModelArticulo articulo)
+            {
+                // Si se hizo clic en un bot√≥n, no hacer nada aqu√≠ (el bot√≥n manejar√° su propio evento)
+                var button = FindParentOfType<Button>(e.OriginalSource as DependencyObject);
+                if (button != null)
                 {
-                    RootGrid.ColumnDefinitions[0].Width = new GridLength(0);
-                    RootGrid.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
+                    return;
                 }
-                catch { /* no crÌtico */ }
+
+                // Si se hizo clic en la fila pero NO en un bot√≥n, mostrar la vista de lectura
+                _articuloSeleccionado = articulo;
+                CargarArticuloEnVista(articulo);
+
+                // Ocultar panel de b√∫squeda
+                SearchPanel.Visibility = Visibility.Collapsed;
+
+                // Mostrar vista de lectura, ocultar tabla
+                TablaPanel.Visibility = Visibility.Collapsed;
+                ViewPanel.Visibility = Visibility.Visible;
             }
         }
 
-        // Cargar datos del artÌculo en el formulario
+        // Cargar art√≠culo en vista de lectura
+        private void CargarArticuloEnVista(ModelArticulo articulo)
+        {
+            var articuloCompleto = _controller.BuscarPorId(articulo.Id);
+            if (articuloCompleto == null) return;
+
+            lblViewTitulo.Text = articuloCompleto.Titulo;
+            lblViewResumen.Text = articuloCompleto.Resumen ?? "Sin resumen";
+            lblViewContenido.Text = articuloCompleto.Contenido ?? "Sin contenido";
+            lblViewCategoria.Text = articuloCompleto.Categoria?.Nombre ?? "Sin categor√≠a";
+            lblViewFecha.Text = articuloCompleto.FechaPublicacion?.ToString("dd/MM/yyyy") ?? "Sin fecha";
+        }
+
+        // Cargar datos del art√≠culo en el formulario
         private void CargarArticuloEnFormulario(ModelArticulo articulo)
         {
-            // Recargar el artÌculo completo con todas sus relaciones
+            // Recargar el art√≠culo completo con todas sus relaciones
             var articuloCompleto = _controller.BuscarPorId(articulo.Id);
             if (articuloCompleto == null) return;
 
@@ -95,7 +119,7 @@ namespace Enkarta.Views
             txtPalabrasClaves.Text = articuloCompleto.PalabrasClaves;
             chkEstado.IsChecked = articuloCompleto.Estado;
 
-            // Nota: autores/etiquetas removidos del formulario, no se seleccionan aquÌ
+            // Nota: autores/etiquetas removidos del formulario, no se seleccionan aqu√≠
         }
 
         // Guardar (crear/actualizar)
@@ -106,7 +130,7 @@ namespace Enkarta.Views
                 // Validar campos obligatorios
                 if (string.IsNullOrWhiteSpace(txtTitulo.Text))
                 {
-                    MessageBox.Show("El tÌtulo es obligatorio", "ValidaciÛn",
+                    MessageBox.Show("El t√≠tulo es obligatorio", "Validaci√≥n",
                         MessageBoxButton.OK, MessageBoxImage.Warning);
                     txtTitulo.Focus();
                     return;
@@ -114,13 +138,13 @@ namespace Enkarta.Views
 
                 if (cmbCategoria.SelectedValue == null)
                 {
-                    MessageBox.Show("Debe seleccionar una categorÌa", "ValidaciÛn",
+                    MessageBox.Show("Debe seleccionar una categor√≠a", "Validaci√≥n",
                         MessageBoxButton.OK, MessageBoxImage.Warning);
                     cmbCategoria.Focus();
                     return;
                 }
 
-                // Crear objeto ArtÌculo
+                // Crear objeto Art√≠culo
                 var articulo = new ModelArticulo
                 {
                     Titulo = txtTitulo.Text.Trim(),
@@ -132,7 +156,7 @@ namespace Enkarta.Views
                     Estado = chkEstado.IsChecked ?? true
                 };
 
-                // Como el formulario ya no contiene autores/etiquetas, enviamos listas vacÌas
+                // Como el formulario ya no contiene autores/etiquetas, enviamos listas vac√≠as
                 var autoresIds = new List<int>();
                 var etiquetasIds = new List<int>();
                 var fuentesIds = new List<int>();
@@ -142,48 +166,54 @@ namespace Enkarta.Views
 
                 if (_modoEdicion && _articuloSeleccionado != null)
                 {
-                    // Actualizar artÌculo existente
+                    // Actualizar art√≠culo existente
                     articulo.Id = _articuloSeleccionado.Id;
                     resultado = _controller.ActualizarArticulo(articulo, autoresIds, etiquetasIds, fuentesIds, mediosIds);
 
                     if (resultado)
                     {
-                        MessageBox.Show("ArtÌculo actualizado correctamente", "…xito",
+                        MessageBox.Show("Art√≠culo actualizado correctamente", "√âxito",
                             MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                 }
                 else
                 {
-                    // Crear nuevo artÌculo
+                    // Crear nuevo art√≠culo
                     resultado = _controller.CrearArticulo(articulo, autoresIds, etiquetasIds, fuentesIds, mediosIds);
 
                     if (resultado)
                     {
-                        MessageBox.Show("ArtÌculo creado correctamente", "…xito",
+                        MessageBox.Show("Art√≠culo creado correctamente", "√âxito",
                             MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                 }
 
                 if (resultado)
                 {
-                    // Restaurar layout y recargar lista
-                    RestaurarLayout();
+                    // Recargar lista y volver a la tabla
                     CargarArticulos();
                     LimpiarFormulario();
                     _modoEdicion = false;
                     _articuloSeleccionado = null;
-                    lblTituloFormulario.Text = "Nuevo ArtÌculo";
+                    lblTituloFormulario.Text = "Nuevo Art√≠culo";
                     btnEliminar.IsEnabled = false;
+
+                    // Mostrar panel de b√∫squeda
+                    SearchPanel.Visibility = Visibility.Visible;
+
+                    // Mostrar tabla, ocultar formulario
+                    TablaPanel.Visibility = Visibility.Visible;
+                    FormPanel.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
-                    MessageBox.Show("Error al guardar el artÌculo", "Error",
+                    MessageBox.Show("Error al guardar el art√≠culo", "Error",
                         MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (ArgumentException ex)
             {
-                MessageBox.Show(ex.Message, "ValidaciÛn",
+                MessageBox.Show(ex.Message, "Validaci√≥n",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             catch (Exception ex)
@@ -193,31 +223,56 @@ namespace Enkarta.Views
             }
         }
 
+        // Bot√≥n Nuevo Art√≠culo: mostrar formulario
+        public void BtnNuevoArticulo_Click(object sender, RoutedEventArgs e)
+        {
+            _modoEdicion = false;
+            _articuloSeleccionado = null;
+            lblTituloFormulario.Text = "Nuevo Art√≠culo";
+            btnEliminar.IsEnabled = false;
+            btnEliminar.Visibility = Visibility.Collapsed;
+            LimpiarFormulario();
+            dgArticulos.SelectedItem = null;
+
+            // Ocultar panel de b√∫squeda
+            SearchPanel.Visibility = Visibility.Collapsed;
+
+            // Mostrar formulario, ocultar tabla
+            TablaPanel.Visibility = Visibility.Collapsed;
+            FormPanel.Visibility = Visibility.Visible;
+        }
+
         // Cancelar: limpiar y restaurar layout
         private void BtnCancelar_Click(object sender, RoutedEventArgs e)
         {
             LimpiarFormulario();
-            RestaurarLayout();
             _modoEdicion = false;
             _articuloSeleccionado = null;
-            lblTituloFormulario.Text = "Nuevo ArtÌculo";
+            lblTituloFormulario.Text = "Nuevo Art√≠culo";
             btnEliminar.IsEnabled = false;
             dgArticulos.SelectedItem = null;
+
+            // Mostrar panel de b√∫squeda
+            SearchPanel.Visibility = Visibility.Visible;
+
+            // Mostrar tabla, ocultar formulario
+            TablaPanel.Visibility = Visibility.Visible;
+            FormPanel.Visibility = Visibility.Collapsed;
         }
 
-        // Eliminar artÌculo
+        // Eliminar art√≠culo
         private void BtnEliminar_Click(object sender, RoutedEventArgs e)
         {
             if (_articuloSeleccionado == null)
             {
-                MessageBox.Show("Debe seleccionar un artÌculo para eliminar", "Advertencia",
+                MessageBox.Show("Debe seleccionar un art√≠culo para eliminar", "Advertencia",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             var resultado = MessageBox.Show(
-                $"øEst· seguro de eliminar el artÌculo '{_articuloSeleccionado.Titulo}'?",
-                "Confirmar eliminaciÛn",
+                $"¬øEst√° seguro de eliminar el art√≠culo '{_articuloSeleccionado.Titulo}'?",
+                "Confirmar eliminaci√≥n",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
 
@@ -229,19 +284,25 @@ namespace Enkarta.Views
 
                     if (eliminado)
                     {
-                        MessageBox.Show("ArtÌculo eliminado correctamente", "…xito",
+                        MessageBox.Show("Art√≠culo eliminado correctamente", "√âxito",
                             MessageBoxButton.OK, MessageBoxImage.Information);
-                        RestaurarLayout();
                         CargarArticulos();
                         LimpiarFormulario();
                         _modoEdicion = false;
                         _articuloSeleccionado = null;
-                        lblTituloFormulario.Text = "Nuevo ArtÌculo";
+                        lblTituloFormulario.Text = "Nuevo Art√≠culo";
                         btnEliminar.IsEnabled = false;
+
+                        // Mostrar panel de b√∫squeda
+                        SearchPanel.Visibility = Visibility.Visible;
+
+                        // Mostrar tabla, ocultar formulario
+                        TablaPanel.Visibility = Visibility.Visible;
+                        FormPanel.Visibility = Visibility.Collapsed;
                     }
                     else
                     {
-                        MessageBox.Show("Error al eliminar el artÌculo", "Error",
+                        MessageBox.Show("Error al eliminar el art√≠culo", "Error",
                             MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
@@ -253,28 +314,17 @@ namespace Enkarta.Views
             }
         }
 
-        // Restaurar layout original (cuando se cierra el formulario)
-        private void RestaurarLayout()
-        {
-            try
-            {
-                RootGrid.ColumnDefinitions[0].Width = new GridLength(2, GridUnitType.Star);
-                RootGrid.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
-            }
-            catch { /* no crÌtico */ }
-        }
-
-        // BotÛn: Refrescar (mantengo mÈtodo si se usa en otro lugar)
+        // Bot√≥n: Refrescar (mantengo m√©todo si se usa en otro lugar)
         private void BtnRefrescar_Click(object sender, RoutedEventArgs e)
         {
             CargarArticulos();
             txtBusquedaRapida.Clear();
         }
 
-        // B˙squeda r·pida mientras se escribe
+        // B√∫squeda r√°pida mientras se escribe
         private void TxtBusquedaRapida_TextChanged(object sender, TextChangedEventArgs e)
         {
-            // ImplementaciÛn b·sica de b˙squeda en el DataGrid actual
+            // Implementaci√≥n b√°sica de b√∫squeda en el DataGrid actual
             var texto = txtBusquedaRapida.Text.ToLower();
 
             if (string.IsNullOrWhiteSpace(texto))
@@ -292,6 +342,76 @@ namespace Enkarta.Views
             dgArticulos.ItemsSource = articulos;
         }
 
+        // Bot√≥n Editar en la fila de la tabla
+        private void BtnEditarFila_Click(object sender, RoutedEventArgs e)
+        {
+            // Marcar como manejado para evitar propagaci√≥n
+            e.Handled = true;
+
+            if (sender is Button btn && btn.Tag is ModelArticulo articulo)
+            {
+                _articuloSeleccionado = articulo;
+                _modoEdicion = true;
+                CargarArticuloEnFormulario(articulo);
+                btnEliminar.IsEnabled = true;
+                btnEliminar.Visibility = Visibility.Visible;
+                lblTituloFormulario.Text = "Editar Art√≠culo";
+
+                // Ocultar panel de b√∫squeda
+                SearchPanel.Visibility = Visibility.Collapsed;
+
+                // Mostrar formulario, ocultar tabla y vista de lectura
+                TablaPanel.Visibility = Visibility.Collapsed;
+                ViewPanel.Visibility = Visibility.Collapsed;
+                FormPanel.Visibility = Visibility.Visible;
+            }
+        }
+
+        /// <summary>
+        /// M√©todo auxiliar para encontrar un elemento padre de un tipo espec√≠fico
+        /// </summary>
+        private T FindParentOfType<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null)
+                return null;
+
+            if (parentObject is T parent)
+                return parent;
+
+            return FindParentOfType<T>(parentObject);
+        }
+
+        // Bot√≥n Editar desde la vista de lectura
+        private void BtnEditarDesdeVista_Click(object sender, RoutedEventArgs e)
+        {
+            if (_articuloSeleccionado != null)
+            {
+                _modoEdicion = true;
+                CargarArticuloEnFormulario(_articuloSeleccionado);
+                btnEliminar.IsEnabled = true;
+                btnEliminar.Visibility = Visibility.Visible;
+                lblTituloFormulario.Text = "Editar Art√≠culo";
+
+                // Mostrar formulario, ocultar vista de lectura
+                ViewPanel.Visibility = Visibility.Collapsed;
+                FormPanel.Visibility = Visibility.Visible;
+            }
+        }
+
+        // Bot√≥n Cerrar desde la vista de lectura
+        private void BtnCerrarVista_Click(object sender, RoutedEventArgs e)
+        {
+            // Mostrar panel de b√∫squeda
+            SearchPanel.Visibility = Visibility.Visible;
+
+            // Mostrar tabla, ocultar vista de lectura
+            TablaPanel.Visibility = Visibility.Visible;
+            ViewPanel.Visibility = Visibility.Collapsed;
+            dgArticulos.SelectedItem = null;
+        }
+
         // Limpiar todos los campos del formulario
         private void LimpiarFormulario()
         {
@@ -302,6 +422,34 @@ namespace Enkarta.Views
             dpFechaPublicacion.SelectedDate = null;
             txtPalabrasClaves.Clear();
             chkEstado.IsChecked = true;
+        }
+
+        /// <summary>
+        /// Muestra la vista de lectura de un art√≠culo espec√≠fico (por ID)
+        /// </summary>
+        public void MostrarVistaArticulo(int articuloId)
+        {
+            try
+            {
+                var articulo = _controller.BuscarPorId(articuloId);
+                if (articulo != null)
+                {
+                    _articuloSeleccionado = articulo;
+                    CargarArticuloEnVista(articulo);
+
+                    // Ocultar panel de b√∫squeda
+                    SearchPanel.Visibility = Visibility.Collapsed;
+
+                    // Mostrar vista de lectura, ocultar tabla
+                    TablaPanel.Visibility = Visibility.Collapsed;
+                    ViewPanel.Visibility = Visibility.Visible;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar el art√≠culo: {ex.Message}",
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

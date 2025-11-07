@@ -43,7 +43,7 @@
                                 Height="48"
                                 Background="{DynamicResource LogoGradientBrush}"
                                 CornerRadius="12">
-                            <TextBlock Text="EU"
+                            <TextBlock Text="EK"
                                        FontFamily="{StaticResource HeadingFont}"
                                        FontSize="20"
                                        FontWeight="Bold"
@@ -326,7 +326,7 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
+                        
                     </Grid.ColumnDefinitions>
 
                     <!-- Breadcrumb y Título -->
@@ -341,11 +341,8 @@
                                    Margin="0,6,0,0"/>
                     </StackPanel>
 
-                    <!-- Botón de acción rápida -->
-                    <Button Grid.Column="1"
-                            Content="+ Nuevo Artículo"
-                            Style="{StaticResource ButtonPrimary}"
-                            VerticalAlignment="Center"/>
+                    
+                   
                 </Grid>
             </Border>
 
